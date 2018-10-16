@@ -72,3 +72,6 @@ c. box也有背景图
 ```
 con  relative
 bg absolute
+# 随笔
+使用了router的时候，页面开始会有一个白屏，这个白屏并不是VUE的白屏，而是加载路由时候的
+白屏，所以可以在App.vue中添加一个页面作为缓冲页面
