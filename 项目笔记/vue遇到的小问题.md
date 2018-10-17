@@ -73,5 +73,33 @@ c. box也有背景图
 con  relative
 bg absolute
 # 随笔
+## 添加app加载等待页面
 使用了router的时候，页面开始会有一个白屏，这个白屏并不是VUE的白屏，而是加载路由时候的
 白屏，所以可以在App.vue中添加一个页面作为缓冲页面
+
+可以通过判断router中的matched来实现
+```
+//page就是加载页面
+<div v-if="invalidRoute">
+  <page></page>
+</div>
+<router-view v-else></router-view>
+//添加一个计算属性
+computed: {
+	invalidRoute () {
+	  return !this.$route.matched || this.$route.matched.length === 0;
+	}
+}
+
+```
+>但是这个样子实现会有一个BUG,那就是当页面跳转到不存在的页面时候，这个效果也会触发，就会导致，在访问不存在的页面的时候，会显示加载页面
+解决方法也简单，给路由守卫添加一个404页面
+详情见下面
+## 解决页面不存在跳转404问题 
+可以在路由守卫中添加下面的话
+ matched 以数组的形式显示出跳转到的页面信息，所以当matched长度为0时，表示跳转的页面不存在
+```
+if(to.matched.length===0){
+	router.replace({path:"/register/404"});
+}
+```
