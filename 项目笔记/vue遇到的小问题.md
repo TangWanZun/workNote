@@ -98,6 +98,59 @@ c. box也有背景图
 ```
 con  relative
 bg absolute
+# 组件
+对于vue来说，页面是由一个个的组件构成的，但是对于组件不同的使用方法可以让组件有这不同的效果
+```
+<template>
+        <div>
+            Hello world
+        </div>
+</template>
+<script>
+    export default {
+        name: 'ele-1',
+    }
+</script>
+```
+上面就是一个简单的组件
+在使用时有两种方式
+1. 局部组件
+这个是最常使用的一种方式
+首先在这种情况下，ele-1这个组件是嵌套在ele-2这个组件中的
+这种最常用的也不需要过多的介绍了
+```
+<template>
+        <div>
+            <ele-1></ele-1>
+        </div>
+</template>
+<script>
+	import ele-1 from 'components/ele-1'
+	export default {
+		name: 'ele-2',
+		components:{ele-1}
+	}
+</script>
+```
+2. 全局组件
+这种组件是需要用的vue的一个方法的
+Vue.component( id, [definition] )
+# component
+Vue用于创建组件的方法
+参数：
+{string} id
+{Function | Object} [definition]
+第二个参数需要重点说明
+这个参数可以接受三种情况
+1. 
+> 注册组件，传入一个扩展过的构造器
+Vue.component('my-component', Vue.extend({ /* ... */ }))
+2.
+> 注册组件，传入一个选项对象 (自动调用 Vue.extend)
+Vue.component('my-component', { /* ... */ })
+3. 普通的方法
+>此时Vue会运行fun这个方法
+Vue.component('my-component', fun)
 # 随笔
 ## 添加app加载等待页面
 使用了router的时候，页面开始会有一个白屏，这个白屏并不是VUE的白屏，而是加载路由时候的
