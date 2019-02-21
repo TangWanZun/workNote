@@ -19,3 +19,5 @@
 3. 运行命令
 > sencha app watch 
 之后就会自动生成对应的css
+
+
