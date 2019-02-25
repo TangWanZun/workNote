@@ -182,3 +182,33 @@ if(to.matched.length===0){
 	router.replace({path:"/register/404"});
 }
 ```
+## 开发模式(development)与生产模式（production）之间配置变化
+这里应该善用webpack的打包，而不是进行手动修改  
+![](vue遇到的小问题_files/1.jpg)  
+在vue-cli2 中，这两个文件分别就是在开发模式和生产模式中加载时加载的不同的全局变量文件
+``` 开发模式
+'use strict'
+const merge = require('webpack-merge')
+const prodEnv = require('./prod.env')
+
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  DE_BUG:true
+})
+
+```
+
+```生产模式
+'use strict'
+module.exports = {
+  NODE_ENV: '"production"',
+  DE_BUG:true
+}
+
+```
+
+当我们在文件中使用
+```
+process.env.DE_BUG
+```
+通过使用这个参数 在生产模式和开发模式 这个参数将根据文件不同则不同
