@@ -34,6 +34,13 @@ thisValue并没有进行相应的改变，这个是因为这里的data中，是�
 	
 ```
 自定义组建中props的属性,是可以用来获取的,但是没法赋值,所以需要将props中的属性移动出来,才可以赋值
+> 2019/3/9添加内容
+要知道，在通常情况下，
+props 中的数据我们是不允许在子组件中修改的，如果修改，则vue会报错，我们要使用$emit的方式用事件来通知父组件
+来改变此值		
+但是这个存在一个我暂时不知道是为什么的现象（或许这个是一个没有进行控制）
+当props中存在数组和对象这种地址传值的时候，我们可以直接对该值进行操作，比如push操作。此时vue不会报错		
+而且，父元素中的变量也会相应的变化。
 # computed计算属性
 ```
  nextStepDisabled:{
@@ -55,6 +62,44 @@ thisValue并没有进行相应的改变，这个是因为这里的data中，是�
 >说法存在问题,
 >计算属性,在被赋值的时候,值是没有真的被赋值到计算属性上的
 >他只是会运行set方法
+# vuex
+> Vue 不能检测到对象属性的添加或删除
+这句话将会是一个重点，由此好多问题都将可以解决	
+例如	
+```
+  state: {
+		//这个是用来进行penl与其modal页面进行互通的缓存
+		//当点击刷新按钮时候，这个变量将会被滞空
+    constChche:{
+		}
+  },
+  mutations: {
+    setDynamicList(state,val){
+			state.constChche.dynamicList = val;
+    }
+  },
+```  
+这里可以很明显的看出，当调用commit('setDynamicList')的时候，就是向constChche中添加一个		
+属性，但是。我们在组件中通过computed计算属性进行检测的时候，发现，这个属性变化是检测不到的		
+但是如果我们在constChche中显示的定义了dynamicList，则可以检测到			
+其原因就是上面的那句话。
+解决方法就是
+```
+  state: {
+		//这个是用来进行penl与其modal页面进行互通的缓存
+		//当点击刷新按钮时候，这个变量将会被滞空
+    constChche:{
+		}
+  },
+  mutations: {
+    setDynamicList(state,val){
+			state.constChche.dynamicList = val;
+			//添加这么一句话
+			state.constChche = Object.assign({},state.constChche)
+    }
+  },
+```
+Object.assign的方法就是拷贝对象，重新赋值，这样computed就可以检测到变化了
 #watch
 属性监听
 ```
