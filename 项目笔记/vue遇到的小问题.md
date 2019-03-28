@@ -257,3 +257,13 @@ module.exports = {
 process.env.DE_BUG
 ```
 通过使用这个参数 在生产模式和开发模式 这个参数将根据文件不同则不同
+## 关于App.vue页面
+> 首先APP页面是全部页面的入口，所以，有些请求只需要在app打开请求一次，所以会放在app中进行
+这里会有个问题，就是在路由守卫中，即便我们使用了next(false)
+app页面也会执行，这里可能会因为在路由鉴权时出现问题
+
+这个时候，可以把获取信息的放置到中		
+router.onReady
+
+这个方法有个回调函数，表示当路由守卫成功调用的回调
+next(false)		与 next(new Error()) 都不会执行router.onReady
