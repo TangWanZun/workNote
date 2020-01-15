@@ -9,7 +9,7 @@ export default class Activity extends Vue {
 		b: "123123"
 	};
 	@Watch("obj", {
-		deep: **true**
+		deep: true
 	})
 	objWatch(val: any) {
 		console.log(val);

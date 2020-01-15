@@ -3,7 +3,7 @@
 # 自定义组件
 1. 在自定义组件中我们会出现对子组件传入值时，会改变
 此时我们通常会这么写
-```
+``` javascript
 	export default {
 		props:['value'],
 		data(){
@@ -17,7 +17,7 @@
 thisValue并没有进行相应的改变，这个是因为这里的data中，是进行的值传值，只有在初始化时才会有效
 解决方法是，采用监听的方式，监听value的变化，从而改变thisValue
 
-```
+```javascript
 	export default {
 		props:['value'],
 		data(){
@@ -42,7 +42,7 @@ props 中的数据我们是不允许在子组件中修改的，如果修改，�
 当props中存在数组和对象这种地址传值的时候，我们可以直接对该值进行操作，比如push操作。此时vue不会报错		
 而且，父元素中的变量也会相应的变化。
 # computed计算属性
-```
+```javascript
  nextStepDisabled:{
 	   get () {
 			if(this.formData.phone && this.formData.verifCode){
@@ -66,7 +66,7 @@ props 中的数据我们是不允许在子组件中修改的，如果修改，�
 > Vue 不能检测到对象属性的添加或删除
 这句话将会是一个重点，由此好多问题都将可以解决	
 例如	
-```
+```javascript
   state: {
 		//这个是用来进行penl与其modal页面进行互通的缓存
 		//当点击刷新按钮时候，这个变量将会被滞空
@@ -84,7 +84,7 @@ props 中的数据我们是不允许在子组件中修改的，如果修改，�
 但是如果我们在constChche中显示的定义了dynamicList，则可以检测到			
 其原因就是上面的那句话。
 解决方法就是
-```
+```javascript
   state: {
 		//这个是用来进行penl与其modal页面进行互通的缓存
 		//当点击刷新按钮时候，这个变量将会被滞空
@@ -102,7 +102,7 @@ props 中的数据我们是不允许在子组件中修改的，如果修改，�
 Object.assign的方法就是拷贝对象，重新赋值，这样computed就可以检测到变化了
 #watch
 属性监听
-```
+```javascript
 	props:['value']
   watch:{
     value(){
@@ -111,7 +111,7 @@ Object.assign的方法就是拷贝对象，重新赋值，这样computed就可�
   }
 ```
 当value首次被赋值的时候watch中对应的方法是不会调用的,如果需要调用，则需要开启深度监听
-```
+```javascript
   watch:{
     value:{
       immediate: true,			//开启深度监听
@@ -124,7 +124,7 @@ Object.assign的方法就是拷贝对象，重新赋值，这样computed就可�
 ```
 # css
 1. absolute 与 relative层级相同;
-```
+```html
 	<div id="box">
 		<div id="bg"></div>
 		<div id="con"></div>
@@ -135,7 +135,7 @@ a. box中嵌套两个div且bg需要充当背景图,
 b. 而且box必须随着con变大而变大,
 c. box也有背景图
 可以使用 下面方式
-```
+```html
 	<div id="box">
 		<div id="con"></div>
 		<div id="bg"></div>
@@ -145,7 +145,7 @@ con  relative
 bg absolute
 # 组件
 对于vue来说，页面是由一个个的组件构成的，但是对于组件不同的使用方法可以让组件有这不同的效果
-```
+```html
 <template>
         <div>
             Hello world
@@ -163,7 +163,7 @@ bg absolute
 这个是最常使用的一种方式
 首先在这种情况下，ele-1这个组件是嵌套在ele-2这个组件中的
 这种最常用的也不需要过多的介绍了
-```
+```html
 <template>
         <div>
             <ele-1></ele-1>
@@ -202,19 +202,20 @@ Vue.component('my-component', fun)
 白屏，所以可以在App.vue中添加一个页面作为缓冲页面
 
 可以通过判断router中的matched来实现
-```
-//page就是加载页面
+```html
+<!--page就是加载页面 -->
 <div v-if="invalidRoute">
   <page></page>
 </div>
 <router-view v-else></router-view>
-//添加一个计算属性
+```
+```javascript
+// 添加一个计算属性
 computed: {
 	invalidRoute () {
 	  return !this.$route.matched || this.$route.matched.length === 0;
 	}
 }
-
 ```
 >但是这个样子实现会有一个BUG,那就是当页面跳转到不存在的页面时候，这个效果也会触发，就会导致，在访问不存在的页面的时候，会显示加载页面
 解决方法也简单，给路由守卫添加一个404页面
@@ -222,16 +223,17 @@ computed: {
 ## 解决页面不存在跳转404问题 
 可以在路由守卫中添加下面的话
  matched 以数组的形式显示出跳转到的页面信息，所以当matched长度为0时，表示跳转的页面不存在
-```
+```javascript
 if(to.matched.length===0){
 	router.replace({path:"/register/404"});
 }
 ```
 ## 开发模式(development)与生产模式（production）之间配置变化
 这里应该善用webpack的打包，而不是进行手动修改  
-![](vue遇到的小问题_files/1.jpg)  
+![](/assets/2.jpg)  
 在vue-cli2 中，这两个文件分别就是在开发模式和生产模式中加载时加载的不同的全局变量文件
-``` 开发模式
+```javascript 
+// 开发模式
 'use strict'
 const merge = require('webpack-merge')
 const prodEnv = require('./prod.env')
@@ -243,7 +245,8 @@ module.exports = merge(prodEnv, {
 
 ```
 
-```生产模式
+```js
+// 生产模式
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
@@ -253,7 +256,7 @@ module.exports = {
 ```
 
 当我们在文件中使用
-```
+```js
 process.env.DE_BUG
 ```
 通过使用这个参数 在生产模式和开发模式 这个参数将根据文件不同则不同
