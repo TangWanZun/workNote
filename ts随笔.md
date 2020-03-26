@@ -37,3 +37,55 @@ function pickCard(x): any {
     }
 }
 ```
+
+# 接口
+>interface 接口其实就是提供一个规范，让你必须按照规范来定义方法，定义变量
+
+```typescript
+
+/**
+* 这里就是强制规定了fun当为方法的时候，需要传入什么值，返回什么值
+* 这里名字可以不同 比如 key 可以是key2  但是位置必须相同
+*/
+interface Fun {
+  (key: number, name: string): string;
+}
+
+let fun: Fun = function(key: number, name: string): string {
+  return key+name;
+};
+
+
+
+/**
+* 这里就是强制规定了必须使用number 作为索引值，string类型为value内容。
+* 这里可以有多种实现方式，可以是对象，也可以是数组
+*/
+
+interface ArrList {
+  [key: number]: string;
+}
+
+let arr: ArrList = ["0", "1", "2"];
+
+let arrObj: ArrList = {
+  1: "0",
+  2: "1"
+};
+
+```
+
+
+# 泛型
+
+``` typescript
+interface ConfigFun{
+  <T>(name:T):T
+}
+
+let fun:ConfigFun = function<T>(name:T){
+  return name
+}
+
+fun<string>("张三"); 
+```
