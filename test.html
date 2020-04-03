@@ -6,93 +6,22 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 </head>
+<style>
+  .box{
+    color:red
+  }
+  .box.action{
+    color: blue;
+  }
+</style>
 <body>
 
+  <div class="box action">
+    <div>
+      123123
+    </div>
+  </div>
   
 </body>
-<script lang="javascript">
-  let tree = {
-    a:'父节点',
-    chilen:[
-      {
-        a:"子节点1",
-        b:"这个是子节点b-1"
-      },
-      {
-        a:"子节点2",
-        b:"这个是子节点b-2"
-      },
-      {
-        a:"子节点3",
-        b:"这个是子节点b-3",
-        chilen:[
-          {
-            a:"子节点3-1"
-          },
-          {
-            a:"子节点3-2"
-          }
-        ]
-      }
-    ]
-  }
-  console.log(tree)
-
-  
-/**
- * 复制一个树结构
- */
- const copyTree = function(
-  para= {
-    children:"Chilen",
-    copyChildren:"Chilen"
-  },
-  treeObj,
-  callback
-) {
-  let copyTreen = {
-    [para.copyChildren]:[]
-  };
-  function fun(obj, parentObj,copyParentObj) {
-    let copyObj = callback(Object.assign({},obj,{
-      [para.children]:undefined
-    }),Object.assign({},obj,{
-      [para.children]:undefined
-    }));
-    copyParentObj[para.copyChildren].push(copyObj)
-    let childList = obj[para.children];
-    if (childList && childList.length > 0) {
-      copyObj[para.copyChildren] = [];
-      childList.map((item) => {
-        fun(item, obj,copyObj);
-      });
-    }
-  }
-  let paraData;
-  if (Object.prototype.toString.call(treeObj) == "[object Array]") {
-    //表示为数组的时候
-    paraData = {
-      [para.children]: treeObj
-    };
-  } else {
-    paraData = treeObj;
-  }
-  fun(paraData, null,copyTreen);
-  return copyTreen[para.copyChildren][0];
-};
-
-let obj =  copyTree({
-  children:"chilen",
-  copyChildren:"chilen"
-},tree,(obj,parentObj)=>{
-  return {
-    new_a:obj.a||"没有a",
-    new_c:`${obj.a} ${obj.b}`
-  }
-})
-
-console.log(obj)
-
-</script>
 
 </html>
